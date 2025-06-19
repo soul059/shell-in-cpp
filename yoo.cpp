@@ -47,7 +47,7 @@ int validate_input(const string &input) {
     while ((pos = input_copy.find(delimiter)) != string::npos) {
         token = input_copy.substr(0, pos);
         tokens.push_back(token);
-        input_copy.erase(0, pos + delimiter.length());
+        input_copy = input_copy.substr(pos + delimiter.length());
     }
     tokens.push_back(input_copy); // Add the last token
 
@@ -91,7 +91,7 @@ void yoo_loop() {
 
         string input = handle_input();
         int chack = validate_input(input);
-        if(chack == '0') {
+        if(chack == 0) {
             continue; // Skip to the next iteration if input is invalid
         }
         string result = input_exicute(input);
