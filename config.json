@@ -1,0 +1,47 @@
+{
+    "shell": {
+        "print":{
+            "name": "Yoo",
+            "initial print":"Welcome to the Yoo Shell!\n Type 'help' for a list of commands.\n Type 'exit' to exit the shell.\n",
+            "end print":"Thank you for using Yoo Shell!\n"
+        },
+        "commands":{
+            "win64":{
+                "terminal":["help","exit","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","echo"],
+                "app":["notepad","mspaint","calc","explorer","cmd","powershell"]
+            },
+            "win32":{
+                "terminal":["help","exit","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","echo"],
+                "app":["notepad","mspaint","calc","explorer","cmd","powershell"]
+            },
+            "linux":{
+                "terminal":["help","exit","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","gnome-calculator","echo"],
+                "app":["gedit","gnome-calculator","nautilus"]
+            },
+            "macos":{
+                "terminal":["help","exit","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","open -a Calculator","echo"],
+                "app":["TextEdit","Calculator","Finder"]
+            },
+            "unix":{
+                "terminal":["help","exit","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","gnome-calculator","echo"],
+                "app":["gedit","gnome-calculator"]
+            },
+            "other":{
+                "terminal":["help","exit","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","echo"],
+                "app":["gedit"]
+            }
+
+        },
+        "color":{
+            "default":"#FFFFFF",
+            "error":"#FF0000",
+            "success":"#00FF00",
+            "info":"#0000FF",
+            "end":"#FFFFFF",
+            "warning":"#FFFF00",
+            "print":"#FF00FF"
+
+        }
+
+    }
+}

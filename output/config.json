@@ -1,0 +1,17 @@
+
+    {
+      "shell": {
+        "prompt": "my_shell> ",
+        "history_size": 100,
+        "default_theme": "dark",
+        "aliases": {
+          "ll": "ls -alF",
+          "gs": "git status"
+        }
+      },
+      "paths": {
+        "bin_dir": "/usr/local/bin",
+        "log_dir": "/var/log/myshell"
+      }
+    }
+    

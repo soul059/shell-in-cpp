@@ -2,15 +2,13 @@
 #include <cstdlib>
 #include<string>
 #include<vector>
-#include "config.h" // Assuming config.h contains necessary declarations
+#include <sstream>
+#include <iomanip>
+#include "config.h"
+#define FMT_HEADER_ONLY
+#include "fmt/color.h"
+#include "fmt/format.h"
 using namespace  std;
-
-const std::string shprint = shell_print_color();
-const std::string succes_c = succes_color();
-const std::string error_c = error_color();
-const std::string RESET =  shell_color_reset();
-const std::string shell_start_color = pre_start_print_color();
-const std::string shell_end_c = shell_end_color();
 
 string handle_input() {
     string input;
@@ -24,14 +22,14 @@ string handle_input() {
 int validate_input(const string &input) {
     vector<string> validcommands = shell_commands(); // Get valid commands from config
     if(validcommands.empty()) {
-        cout << "Error: No valid commands available." << endl;
+        fmt::print(fmt::fg(hex_to_rgb_my(error_color())), "Error: No valid commands available.\n");
         return 0; // Return 0 for invalid input
     }
     int numcommands =  no_of_commands(); // Get the number of valid commands
 
     // Check if input is empty
     if(input.empty()) {
-        cout << "Error: No input provided." << endl;
+        fmt::print(fmt::fg(hex_to_rgb_my(error_color())), "Error: No input provided.\n");
         return 0; // Return 0 for invalid input
     }
 
@@ -59,12 +57,12 @@ int validate_input(const string &input) {
     if(command == "sudo"){
         string sudo_command = tokens.size() > 1 ? tokens[1] : "";
         if(sudo_command.empty()) {
-            cout << "Error: No command provided for sudo." << endl;
+            fmt::print(fmt::fg(hex_to_rgb_my(error_color())), "Error: No command provided for sudo.\n");
             return 0; // Return 0 for invalid sudo command
         }
         if(sudo_command == "cd") {
             if(tokens.size() < 3) {
-                cout << "Error: No directory specified for sudo cd." << endl;
+                fmt::print(fmt::fg(hex_to_rgb_my(error_color())), "Error: No directory specified for sudo cd.\n");
                 return 0; // Return 0 for invalid sudo cd command
             }
             commands_cd(tokens.size() > 2 ? tokens[2] : "");
@@ -78,7 +76,7 @@ int validate_input(const string &input) {
     }
     if(command == "cd") {
         if(tokens.size() < 2) {
-            cout << "Error: No directory specified for cd." << endl;
+            fmt::print(fmt::fg(hex_to_rgb_my(error_color())), "Error: No directory specified for cd.\n");
             return 0; // Return 0 for invalid cd command
         }
         commands_cd(tokens[1]); // Call command_cd with the specified directory
@@ -89,8 +87,7 @@ int validate_input(const string &input) {
             return 1; // Return 1 for valid input
         }
     }
-
-    cout << "Error: Invalid command '" << command << "'." << endl;
+    fmt::print(fmt::fg(hex_to_rgb_my(error_color())), "Error: Invalid command \'{}'\n",command);
     return 0; // Return 0 for invalid input
 }
 
@@ -105,17 +102,13 @@ string input_exicute(const string &input) {
         result = "Command executed successfully.";
     }
     else {
-        cout << error_c << "Command execution failed or returned "
-                "non-zero: "
-             << returnCode << RESET << endl;
+        fmt::print(fmt::fg(hex_to_rgb_my(error_color())), "Command execution failed or returned non-zero:  {}\n", returnCode);
     }
     return result; // Return the result of command execution
 }
 void yoo_loop() {
     while(true) {
-
-        cout << shprint << shell_print()<< RESET; // Print the shell prompt
-        cout.flush(); // Ensure the prompt is displayed immediately
+        fmt::print(fmt::fg(hex_to_rgb_my(shell_print_color())), shell_print());
 
         string input = handle_input();
         int chack = validate_input(input);
@@ -124,25 +117,26 @@ void yoo_loop() {
         }
         string result = input_exicute(input);
         if(!result.empty()) {
-            cout << succes_c << result << RESET << endl; // Print the result of command execution
+            fmt::print(fmt::fg(hex_to_rgb_my(succes_color())), "{}\n",result); // Print success message
         }
         else {
-            cout << error_c << "No output from command."<< RESET << endl; // Handle case where no output is returned
+            fmt::print(fmt::fg(hex_to_rgb_my(warning_color())), "No output from command.");
         }
         
     }
 }
 
 int main(int argc, char **argv) {
+    set_configuration(); // Load configuration settings
     //pre shell setup
-    cout << shell_start_color << "Shell Name: " << shell_name() << endl; // Print shell name
-    cout << pre_start_print() << RESET << endl; // Print welcome message
-
+    fmt::print(fmt::fg(hex_to_rgb_my(pre_start_print_color())), "Shell Name: {}\n", shell_name()); // Print shell name
+    fmt::print(fmt::fg(hex_to_rgb_my(pre_start_print_color())), "{}\n",pre_start_print()); // Print shell name
+    
     // Start loop for input in shell
     yoo_loop();
-
+    
     // Post shell cleanup
-    cout <<shell_end_c<< shell_end() << RESET << endl; // Print shell end message
+    fmt::print(fmt::fg(hex_to_rgb_my(shell_end_color())), shell_end()); // Print shell name
     shell_commands_exit(); // Call exit function to clean up and exit
     return 0;
 }
