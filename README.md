@@ -73,3 +73,7 @@ To build and run the shell, you will need a C++ compiler (like g++) and the `fmt
     ```bash
     ./yoo.exe
     ```
+
+## For Developers
+
+For a detailed guide on how this shell was built, including explanations of the core concepts and libraries used, please see the [BUILD_GUIDE.md](BUILD_GUIDE.md) file.
