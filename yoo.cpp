@@ -5,6 +5,13 @@
 #include "config.h" // Assuming config.h contains necessary declarations
 using namespace  std;
 
+const std::string shprint = shell_print_color();
+const std::string succes_c = succes_color();
+const std::string error_c = error_color();
+const std::string RESET =  shell_color_reset();
+const std::string shell_start_color = pre_start_print_color();
+const std::string shell_end_c = shell_end_color();
+
 string handle_input() {
     string input;
     getline(cin, input); // Read a line of input from the user
@@ -98,15 +105,16 @@ string input_exicute(const string &input) {
         result = "Command executed successfully.";
     }
     else {
-        cout << "Command execution failed or returned "
+        cout << error_c << "Command execution failed or returned "
                 "non-zero: "
-             << returnCode << endl;
+             << returnCode << RESET << endl;
     }
     return result; // Return the result of command execution
 }
 void yoo_loop() {
     while(true) {
-        cout <<  shell_print(); // Print the shell prompt
+
+        cout << shprint << shell_print()<< RESET; // Print the shell prompt
         cout.flush(); // Ensure the prompt is displayed immediately
 
         string input = handle_input();
@@ -116,10 +124,10 @@ void yoo_loop() {
         }
         string result = input_exicute(input);
         if(!result.empty()) {
-            cout << result << endl; // Print the result of command execution
+            cout << succes_c << result << RESET << endl; // Print the result of command execution
         }
         else {
-            cout << "No output from command." << endl; // Handle case where no output is returned
+            cout << error_c << "No output from command."<< RESET << endl; // Handle case where no output is returned
         }
         
     }
@@ -127,14 +135,14 @@ void yoo_loop() {
 
 int main(int argc, char **argv) {
     //pre shell setup
-    cout << "Shell Name: " << shell_name() << endl; // Print shell name
-    cout << pre_start_print() << endl; // Print welcome message
+    cout << shell_start_color << "Shell Name: " << shell_name() << endl; // Print shell name
+    cout << pre_start_print() << RESET << endl; // Print welcome message
 
     // Start loop for input in shell
     yoo_loop();
 
     // Post shell cleanup
-    cout << shell_end() << endl; // Print shell end message
+    cout <<shell_end_c<< shell_end() << RESET << endl; // Print shell end message
     shell_commands_exit(); // Call exit function to clean up and exit
     return 0;
 }

@@ -31,13 +31,15 @@ string shell_print() {
     } else {
         result += "Unknown Directory"; // Fallback if getcwd fails
     }
-    result += "> "; // Append shell prompt
+    result += " > "; // Append shell prompt
     return result;
 }
 vector<string> shell_commands() {
     vector<string> comm ; 
     #ifdef _WIN64
-        comm = {"help","exit","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","echo"}; // Windows
+        comm = {"help","exit","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","echo"};
+        vector<string> apps = {"notepad"}; // Windows
+        comm.insert(comm.end(), apps.begin(), apps.end()); // Add applications to commands
     #elif __APPLE__
         comm = {}; // macOS
     #elif __linux__
@@ -61,15 +63,15 @@ void shell_commands_help() {
     }
 }
 
-void shell_commands_exit() {
-    cout << "Exiting the shell." << endl;
-    exit(0); // Exit the program
-}
 
 string shell_end() {
     return "Exiting Yoo Shell.";
 }
 
+void shell_commands_exit() {
+    cout << shell_end_color <<"Exiting the shell."<<shell_color_reset << endl;
+    exit(0); // Exit the program
+}
 
 void commands_cd(string path) {
     #ifdef _WIN64
@@ -81,4 +83,25 @@ void commands_cd(string path) {
             cerr << "Error changing directory to " << path << endl;
         }
     #endif
+}
+
+
+// Color functions for terminal output
+string shell_end_color() {
+    return "\033[0m"; // Reset color
+}
+string error_color() {
+    return "\033[31m"; // Red color for errors
+}
+string succes_color() {
+    return "\033[32m"; // Green color for success
+}
+string shell_print_color() {
+    return "\033[36m"; // Cyan color for shell prompt
+}
+string pre_start_print_color() {
+    return "\033[32m"; // Green color for welcome message
+}
+string shell_color_reset() {
+    return "\033[0m"; // Reset color
 }
