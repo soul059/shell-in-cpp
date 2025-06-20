@@ -37,7 +37,7 @@ string shell_print() {
 vector<string> shell_commands() {
     vector<string> comm ; 
     #ifdef _WIN64
-        comm = {"help","exit","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","get-Location"}; // Windows
+        comm = {"help","exit","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","echo"}; // Windows
     #elif __APPLE__
         comm = {}; // macOS
     #elif __linux__
