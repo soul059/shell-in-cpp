@@ -2,23 +2,10 @@
 #include <cstdlib>
 #include<string>
 #include<vector>
+#include "config.h" // Assuming config.h contains necessary declarations
 using namespace  std;
 
-void command_help(string validcom[], int numcom) {
-    for(int i=0;i<numcom;i++) {
-        cout << validcom[i] << endl; // Print each valid command
-    }
-}
-
-void command_exit() {
-    cout << "Exiting the shell." << endl;
-    exit(0); // Exit the program
-}
-
 string handle_input() {
-    string validcommands[] = {"help", "exit", "list", "add", "remove"};
-    int numcommands = sizeof(validcommands) / sizeof(validcommands[0]);
-
     string input;
     getline(cin, input); // Read a line of input from the user
     if(input.empty()) {
@@ -28,8 +15,12 @@ string handle_input() {
 }
 
 int validate_input(const string &input) {
-    string validcommands[] = {"help", "exit", "ls", "pwd", "cd", "mkdir", "rmdir", "touch", "rm", "cat", "echo"};
-    int numcommands = sizeof(validcommands) / sizeof(validcommands[0]);
+    vector<string> validcommands = shell_commands(); // Get valid commands from config
+    if(validcommands.empty()) {
+        cout << "Error: No valid commands available." << endl;
+        return 0; // Return 0 for invalid input
+    }
+    int numcommands =  no_of_commands(); // Get the number of valid commands
 
     // Check if input is empty
     if(input.empty()) {
@@ -53,10 +44,38 @@ int validate_input(const string &input) {
 
     // Check if the command is valid
     string command = tokens[0];
-    if(tokens[0] == "exit") command_exit(); // Handle exit command
+    if(tokens[0] == "exit") shell_commands_exit(); // Handle exit command
     if(tokens[0] == "help") {
-        command_help(validcommands, numcommands);
+        shell_commands_help(); // Print help for commands
         return 0; // Return 0 for help command
+    }
+    if(command == "sudo"){
+        string sudo_command = tokens.size() > 1 ? tokens[1] : "";
+        if(sudo_command.empty()) {
+            cout << "Error: No command provided for sudo." << endl;
+            return 0; // Return 0 for invalid sudo command
+        }
+        if(sudo_command == "cd") {
+            if(tokens.size() < 3) {
+                cout << "Error: No directory specified for sudo cd." << endl;
+                return 0; // Return 0 for invalid sudo cd command
+            }
+            commands_cd(tokens.size() > 2 ? tokens[2] : "");
+            return 0; // Return 0 for valid sudo cd command
+        } // Handle cd command with sudo
+        for(int i = 0; i < numcommands; i++) {
+            if(sudo_command == validcommands[i]) {
+                return 1; // Return 1 for valid input
+            }
+        }
+    }
+    if(command == "cd") {
+        if(tokens.size() < 2) {
+            cout << "Error: No directory specified for cd." << endl;
+            return 0; // Return 0 for invalid cd command
+        }
+        commands_cd(tokens[1]); // Call command_cd with the specified directory
+        return 0; // Return 1 for valid input
     }
     for(int i = 0; i < numcommands; i++) {
         if(command == validcommands[i]) {
@@ -87,7 +106,8 @@ string input_exicute(const string &input) {
 }
 void yoo_loop() {
     while(true) {
-        cout << "yoo> ";
+        cout <<  shell_print(); // Print the shell prompt
+        cout.flush(); // Ensure the prompt is displayed immediately
 
         string input = handle_input();
         int chack = validate_input(input);
@@ -107,14 +127,14 @@ void yoo_loop() {
 
 int main(int argc, char **argv) {
     //pre shell setup
-    cout << "Welcome to the yoo shell!" << endl;
-    cout << "Type 'help' for a list of commands." << endl;
-    cout << "Type 'exit' to leave the shell." << endl;
+    cout << "Shell Name: " << shell_name() << endl; // Print shell name
+    cout << pre_start_print() << endl; // Print welcome message
 
     // Start loop for input in shell
     yoo_loop();
 
     // Post shell cleanup
-    cout << "Exiting yoo shell." << endl;
+    cout << shell_end() << endl; // Print shell end message
+    shell_commands_exit(); // Call exit function to clean up and exit
     return 0;
 }
