@@ -159,9 +159,15 @@ int no_of_commands() {
 }
 void shell_commands_help() {
     string help_text = "Available commands:\n";
+    cout << "Commands" << endl;
+    cout << "--------" << endl;
     for(const auto& command : shell_commands()) {
-        cout << command << endl; // Print each command
-        help_text += command + "\n"; // Append command to help text
+        cout << "\t" << command << endl; // Print each command
+    }
+    cout << "apps" << endl;
+    cout << "--------" << endl;
+    for (const auto& app : apps) {
+        cout << "\t" << app << endl; // Print each app
     }
 }
 
