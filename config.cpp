@@ -242,17 +242,22 @@ string pre_start_print_color() {
 //     return default_color_v; // Reset color
 // }
 
-void set_history(string &pre_com){
-    string history_file = "history.txt";
+void set_history(string& pre_com){
     if(history.size() > 10){
         std::ofstream outFile("history_file.txt"); // Open file for writing
         if (outFile.is_open()) {
-            outFile << pre_com << "\n";
+            for (size_t i = 0; i < history.size(); ++i) {
+                outFile << history[i] << "\n"; // Write each command to the file
+            }
+            history.clear(); // Clear the history vector after writing to file
             outFile.close(); // Close the file
         } else {
             std::cerr << "Error opening file for writing.\n";
         }
         history.erase(history.begin()); // Remove the oldest command if history exceeds 10
+    }
+    if(history.back() == pre_com) {
+        return; // If the command is already in history, do not add it again
     }
     history.push_back(pre_com); // Add the new command to history
 }

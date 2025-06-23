@@ -48,7 +48,7 @@ void shell_commands_help();
 void shell_commands_history();
 void commands_cd(std::string);
 
-void set_history(std::string );
+void set_history(std::string& command);
 std::vector<std::string> get_history();
 
 #endif

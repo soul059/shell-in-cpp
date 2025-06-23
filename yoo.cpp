@@ -101,7 +101,8 @@ string input_exicute(const string &input) {
     // checking if the command was executed successfully
     if (returnCode == 0) {
         result = "Command executed successfully.";
-        set_history(input); // Store the command in history
+        string command_copy = input; // Create a non-const copy
+        set_history(command_copy); // Store the command in history
     }
     else {
         fmt::print(fmt::fg(hex_to_rgb_my(error_color())), "Command execution failed or returned non-zero:  {}\n", returnCode);
