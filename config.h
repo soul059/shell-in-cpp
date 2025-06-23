@@ -45,6 +45,10 @@ int no_of_commands();
 
 void shell_commands_exit();
 void shell_commands_help();
+void shell_commands_history();
 void commands_cd(std::string);
+
+void set_history(std::string );
+std::vector<std::string> get_history();
 
 #endif

@@ -19,6 +19,8 @@ using namespace  std;
     #define getcwd getcwd
 #endif
 
+vector<string> history;
+
 std::string name;
 std::string initial_print;
 std::string end_print;
@@ -130,6 +132,7 @@ void set_configuration() {
 }
 
 string pre_start_print() {
+    history = get_history(); // Load history from file
     return initial_print;
 }
 string shell_name() {
@@ -173,6 +176,15 @@ void shell_commands_help() {
 
 
 string shell_end() {
+    std::ofstream outFile("history_file.txt"); // Open file for writing
+    if (outFile.is_open()) {
+        for (const auto& cmd : history) {
+            outFile << cmd << "\n";
+        }
+        outFile.close(); // Close the file
+    } else {
+        std::cerr << "Error opening file for writing.\n";
+    }
     return "Exiting Yoo Shell.";
 }
 
@@ -192,6 +204,19 @@ void commands_cd(string path) {
         }
     #endif
 }
+
+void shell_commands_history() {
+    vector<string> history = get_history(); // Get history from file
+    if (history.empty()) {
+        fmt::print(fmt::fg(hex_to_rgb_my(error_color_v)), "No history found.\n");
+        return;
+    }
+    fmt::print(fmt::fg(hex_to_rgb_my(info_color_v)), "Command History:\n");
+    for (const auto& cmd : history) {
+        fmt::print(fmt::fg(hex_to_rgb_my(print_color_v)), "{}\n", cmd); // Print each command in history
+    }
+}
+
 
 
 // Color functions for terminal output
@@ -217,3 +242,39 @@ string pre_start_print_color() {
 //     return default_color_v; // Reset color
 // }
 
+void set_history(string &pre_com){
+    string history_file = "history.txt";
+    if(history.size() > 10){
+        std::ofstream outFile("history_file.txt"); // Open file for writing
+        if (outFile.is_open()) {
+            outFile << pre_com << "\n";
+            outFile.close(); // Close the file
+        } else {
+            std::cerr << "Error opening file for writing.\n";
+        }
+        history.erase(history.begin()); // Remove the oldest command if history exceeds 10
+    }
+    history.push_back(pre_com); // Add the new command to history
+}
+
+vector<string> get_history(){
+    vector<string> history;
+    // Read history from file
+    std::ifstream inFile("history_file.txt"); // Open file for reading
+    if (inFile.is_open()) {
+        std::string line;
+        while (std::getline(inFile, line)) { // Read line by line
+            history.push_back(line);
+        }
+        inFile.close(); // Close the file
+    } else {
+        std::cerr << "Error opening file for reading.\n";
+    }
+    if(history.empty()) {
+        std::cerr << "No history found.\n"; // Print error if history is empty
+    }
+    if(history.size() > 10) {
+        history.erase(history.begin(), history.end() - 10); // Keep only the last 10 commands
+    }
+    return history;
+}

@@ -7,27 +7,27 @@
         },
         "commands":{
             "win64":{
-                "terminal":["help","exit","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","echo"],
+                "terminal":["help","exit","history","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","echo"],
                 "apps":["notepad","mspaint","calc","explorer","cmd","powershell"]
             },
             "win32":{
-                "terminal":["help","exit","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","echo"],
+                "terminal":["help","exit","history","dir","cd","mkdir","rmdir","del","cls","time","copy","ping","ipconfig","fc","calc","echo"],
                 "apps":["notepad","mspaint","calc","explorer","cmd","powershell"]
             },
             "linux":{
-                "terminal":["help","exit","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","gnome-calculator","echo"],
+                "terminal":["help","exit","history","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","gnome-calculator","echo"],
                 "apps":["gedit","gnome-calculator","nautilus"]
             },
             "macos":{
-                "terminal":["help","exit","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","open -a Calculator","echo"],
+                "terminal":["help","exit","history","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","open -a Calculator","echo"],
                 "apps":["TextEdit","Calculator","Finder"]
             },
             "unix":{
-                "terminal":["help","exit","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","gnome-calculator","echo"],
+                "terminal":["help","exit","history","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","gnome-calculator","echo"],
                 "apps":["gedit","gnome-calculator"]
             },
             "other":{
-                "terminal":["help","exit","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","echo"],
+                "terminal":["help","exit","history","ls","cd","mkdir","rmdir","rm","clear","date","cp","ping","ifconfig","diff","echo"],
                 "apps":["gedit"]
             }
 
